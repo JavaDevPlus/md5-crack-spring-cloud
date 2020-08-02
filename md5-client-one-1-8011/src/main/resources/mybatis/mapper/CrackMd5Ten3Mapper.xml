@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yysoft.md5.cloud.repository.CrackMd5Ten3Mapper">
+  <resultMap id="BaseResultMap" type="com.yysoft.md5.cloud.entities.CrackMd5Ten">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="old_str" jdbcType="VARCHAR" property="oldStr" />
+    <result column="MD5_32_str" jdbcType="VARCHAR" property="md532Str" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  
+  <!-- 批量插入MD5数据 -->
+     <insert id ="insertMd5DataBatch" parameterType="java.util.List" >
+            <selectKey resultType ="long" keyProperty= "id" order= "AFTER">
+                SELECT LAST_INSERT_ID()
+            </selectKey >
+           insert into crack_md5_ten_3 (id, old_str, MD5_32_str, create_date)
+           values
+            <foreach collection ="list" item="item" index= "index" separator =",">
+                (
+                #{item.id},
+                #{item.oldStr},
+                #{item.md532Str},
+                #{item.createDate}
+                )
+            </foreach >
+     </insert >
+  
+  <sql id="Base_Column_List">
+    id, old_str, MD5_32_str, create_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from crack_md5_ten_3
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from crack_md5_ten_3
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yysoft.md5.cloud.entities.CrackMd5Ten">
+    insert into crack_md5_ten_3 (id, old_str, MD5_32_str, 
+      create_date)
+    values (#{id,jdbcType=BIGINT}, #{oldStr,jdbcType=VARCHAR}, #{md532Str,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yysoft.md5.cloud.entities.CrackMd5Ten">
+    insert into crack_md5_ten_3
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="oldStr != null">
+        old_str,
+      </if>
+      <if test="md532Str != null">
+        MD5_32_str,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="oldStr != null">
+        #{oldStr,jdbcType=VARCHAR},
+      </if>
+      <if test="md532Str != null">
+        #{md532Str,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yysoft.md5.cloud.entities.CrackMd5Ten">
+    update crack_md5_ten_3
+    <set>
+      <if test="oldStr != null">
+        old_str = #{oldStr,jdbcType=VARCHAR},
+      </if>
+      <if test="md532Str != null">
+        MD5_32_str = #{md532Str,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yysoft.md5.cloud.entities.CrackMd5Ten">
+    update crack_md5_ten_3
+    set old_str = #{oldStr,jdbcType=VARCHAR},
+      MD5_32_str = #{md532Str,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

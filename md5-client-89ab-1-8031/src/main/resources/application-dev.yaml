@@ -1,0 +1,49 @@
+server:
+  port: 8031
+
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml        # mybatis配置文件所在路径
+  type-aliases-package: com.yysoft.md5.cloud.entities   # 所有Entity别名类所在包
+  mapper-locations:
+    - classpath:mybatis/mapper/**/*.xml                       # mapper映射文件
+
+spring:
+  application:
+    name: microservicecloud-md5-89ab
+  shardingsphere:
+    datasource:
+      ds0:
+        driver-class-name: com.mysql.jdbc.Driver
+        password: Root!!4455
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://192.168.99.123:3306/microservice-md5?characterEncoding=utf-8
+        username: root
+      ds0slave:
+        driver-class-name: com.mysql.jdbc.Driver
+        password: Root!!4455
+        type: com.alibaba.druid.pool.DruidDataSource
+        #url: jdbc:mysql://127.0.0.1:3306/microservice-md5slave?characterEncoding=utf-8      # MAC系统读库
+        url: jdbc:mysql://192.168.99.123:3307/microservice-md5?characterEncoding=utf-8  # 刀片机读库
+        username: root
+      names: ds0,ds0slave
+    sharding:
+      master-slave-rules:
+        ds0:
+          master-data-source-name: ds0
+          slave-data-source-names: ds0slave
+# spring-cloud部分
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url:
+       defaultZone: http://192.168.99.117:7001/eureka
+#      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+  #自定义instance信息
+  instance:
+    instance-id: microservicecloud-md5-89ab-8031
+    prefer-ip-address: true     #访问路径可以显示IP地址
+# /info监控信息
+info:
+  app.name: atguigu-microservicecloud
+  company.name: www.atguigu.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$

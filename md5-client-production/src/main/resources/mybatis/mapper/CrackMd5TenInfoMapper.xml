@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yysoft.md5.cloud.repository.CrackMd5TenInfoMapper">
+  <resultMap id="BaseResultMap" type="com.yysoft.md5.cloud.entities.CrackMd5TenInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="all_count" jdbcType="BIGINT" property="allCount" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, all_count, update_date
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from crack_md5_ten_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from crack_md5_ten_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.yysoft.md5.cloud.entities.CrackMd5TenInfo">
+    insert into crack_md5_ten_info (id, all_count, update_date
+      )
+    values (#{id,jdbcType=BIGINT}, #{allCount,jdbcType=BIGINT}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.yysoft.md5.cloud.entities.CrackMd5TenInfo">
+    insert into crack_md5_ten_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="allCount != null">
+        all_count,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="allCount != null">
+        #{allCount,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.yysoft.md5.cloud.entities.CrackMd5TenInfo">
+    update crack_md5_ten_info
+    <set>
+      <if test="allCount != null">
+        all_count = #{allCount,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateAllCount" parameterType="com.yysoft.md5.cloud.entities.CrackMd5TenInfo">
+    update crack_md5_ten_info
+      set all_count = #{allCount,jdbcType=BIGINT} + all_count,
+      update_date = now()
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.yysoft.md5.cloud.entities.CrackMd5TenInfo">
+    update crack_md5_ten_info
+    set all_count = #{allCount,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+</mapper>
